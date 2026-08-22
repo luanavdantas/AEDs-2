@@ -20,7 +20,7 @@ char* inverteString (char string[])
     //Inicialização do vetor
     for(int m=0; m<100; m++)
             stringFinal[m]='\0';
-    //Construção e saída da string invertida
+    //Construção da string invertida
     for(int j=0; j<tam; j++)
         stringFinal[j] = string[tam-j-1];
     return stringFinal;

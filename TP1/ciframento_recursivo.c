@@ -2,20 +2,21 @@
 #include <stdlib.h>
 /*
     Data: 19/08/2026
-    Objetivo: Método iterativo que faz o ciframento de césar
+    Objetivo: Método recursivo que faz o ciframento de césar
     Autora: Luana Dantas
 */
-void ciframento (char *p, int j)
+char* ciframento (char p[], int j)
 {
-    if(*(p+j)!='\0')
+    if(p[j]!='\0')
     {
-        *(p+j)+=3; //Aumenta 3 bytes em cada caractere
+        p[j]+=3; //Aumenta 3 bytes em cada caractere
         ciframento(p,j+1); //Chamada recursiva que passa a próxima posição como prâmetro
     }
+    return p;
 }
-void chamaCiframento (char *p)
+char* chamaCiframento (char *p)
 {
-    ciframento(p,0);
+    return ciframento(p,0);
 }
 int main()
 {
