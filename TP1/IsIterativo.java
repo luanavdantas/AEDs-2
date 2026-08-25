@@ -67,13 +67,20 @@ public class IsIterativo {
         if(tam==s.length()) resp = true; //Significa que a condição é verdadeira para todos os caracteres
         return resp;
     }
+    public static boolean comparar(String nova)
+    {
+        boolean resp;
+        if(nova.charAt(0)=='F' && nova.charAt(1)=='I' && nova.charAt(2)=='M' && nova.length()==3) resp = false;
+        else resp = true;
+        return resp;
+    }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String str;
         boolean x1, x2, x3, x4;
-        while(sc.hasNext())
+        str = sc.nextLine();
+        while(comparar(str))
         {
-            str = sc.nextLine();
             x1 = isVogal(str);
             if(x1 == true) System.out.print("SIM ");
             else System.out.print("NAO ");
@@ -86,6 +93,7 @@ public class IsIterativo {
             x4 = isReal(str);
             if(x4 == true) System.out.println("SIM ");
             else System.out.println("NAO ");
+            str = sc.nextLine();
         }
         sc.close();
     }
