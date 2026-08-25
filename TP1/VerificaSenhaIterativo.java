@@ -44,16 +44,24 @@ public class VerificaSenhaIterativo {
             //A resposta se torna verdadeira se todos os verificadores estão dentro das condições pré-estabelecidas
         return resp;
     }
+    public static boolean comparar(String nova)
+    {
+        boolean resp;
+        if(nova.charAt(0)=='F' && nova.charAt(1)=='I' && nova.charAt(2)=='M' && nova.length()==3) resp = false;
+        else resp = true;
+        return resp;
+    }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String senha;
         boolean x;
-        while(sc.hasNext())
+        senha = sc.nextLine();
+        while(comparar(senha)
         {
-            senha = sc.nextLine();
             x = verifica(senha);
             if(x==true)System.out.println("SIM");
             else System.out.println("NAO");
+            senha = sc.nextLine();
         }
         sc.close();
     }
