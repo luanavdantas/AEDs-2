@@ -7,26 +7,33 @@ import java.util.*;
 */
 public class CiframentoIterativo
 {
-    public static void ciframento (String p)
+    public static String ciframento (String p)
     {
-        //Não consegui pensar em um jeito de retornar um vetor de char 
-        //que recebe as letras alteradas então já exibi o resultado no próprio método
+        String nString = "";
         char letra;
         for(int i=0; i<p.length(); i++)
         {
             letra = p.charAt(i); //Letra recebe o char a ser alterado
             letra += 3; //Soma-se 3 bytes
-            System.out.print(letra); 
+            nString+=letra;
         }
-        System.out.println();
+        return nString;
+    }
+    public static boolean comparar(String nova)
+    {
+        boolean resp;
+        if(nova.charAt(0)=='F' && nova.charAt(1)=='I' && nova.charAt(2)=='M' && nova.length()==3) resp = false;
+        else resp = true;
+        return resp;
     }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String s1;
-        while(sc.hasNext())
+        s1 = sc.nextLine();
+        while(comparar(s1))
         {
+            System.out.println(ciframento(s1));
             s1 = sc.nextLine();
-            ciframento(s1);
         }
         sc.close();
     }
