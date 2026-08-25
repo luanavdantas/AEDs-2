@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 /*
     Data: 19/08/2026
     Objetivo: Método iterativo que verifica se duas strings são anagramas
@@ -14,10 +13,9 @@ int defineTamanho (char string[])
             tam++;
     return tam;
 }
-bool verificaAnagrama (char s1[], char s2[])
+int verificaAnagrama (char s1[], char s2[])
 {
-    int tam1=defineTamanho(s1), tam2=defineTamanho(s2);
-    bool resp=false;
+    int tam1=defineTamanho(s1), tam2=defineTamanho(s2), resp=0;
     //Conversão para letra minúscula
         for(int i=0; s1[i]!='\0'; i++)
             if(s1[i]>='A' && s1[i]<='Z') s1[i] += 32;
@@ -30,13 +28,13 @@ bool verificaAnagrama (char s1[], char s2[])
             {
                 if(s1[k]==s2[m])
                 {
-                    resp=true;
+                    resp=1;
                     s2[m] = '.'; //Caractere já encontrou seu correspondente
                     m=tam2; //Sai do for interno
                 }
-                else resp=false;
+                else resp=0;
             }
-            if(resp==false) k=tam1; //Se um dos caracteres do vetor 1 não encontrar correspondentes, as string não são anagramas
+            if(resp==0) k=tam1; //Se um dos caracteres do vetor 1 não encontrar correspondentes, as string não são anagramas
         }
         return resp;
 }
@@ -44,7 +42,7 @@ int main()
 {
     //Declaração das variáveis
     char s1[100],s2[100];
-    bool resp;
+    int resp;
     //Leitura da entrada
     scanf("%s",s1);
     //Laço de repetição com condição de parada
@@ -52,7 +50,7 @@ int main()
     {
         scanf("%s",s2);
         resp=verificaAnagrama(s1,s2);
-        if(resp==true) printf("SIM\n");
+        if(resp==1) printf("SIM\n");
         else printf("NAO\n");
         scanf("%s",s1);
     }
