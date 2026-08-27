@@ -17,15 +17,12 @@ int somaDigitos (int n)
 int main()
 {
     //Declaração de variáveis
-    int n, resp;
-    //Leitura do input
-    scanf("%d",&n);
+    int n, resp, x;
     //Laço de repetição
-    while(n>=0)
+    while((x = scanf("%d",&n))!=EOF)
     {
         resp = somaDigitos(n);
         printf("%d\n",resp);
-        scanf("%d",&n);
     }
     return 0;
 }

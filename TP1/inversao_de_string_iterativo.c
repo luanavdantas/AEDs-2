@@ -16,7 +16,7 @@ int defineTamanho (char string[])
 char* inverteString (char string[])
 {
     int tam=defineTamanho(string);;
-    static char stringFinal[100];
+    static char stringFinal[1000];
     //Inicialização do vetor
     for(int m=0; m<100; m++)
             stringFinal[m]='\0';
@@ -28,7 +28,7 @@ char* inverteString (char string[])
 int main()
 {
     //Declaração de variáveis
-    char stringInicial[100];
+    char stringInicial[1000];
     //Leitura da entrada
     scanf(" %[^\n]",stringInicial);
     //Laço de repetição que faz a leitura até a palavra finalizadora

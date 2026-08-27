@@ -74,7 +74,7 @@ int chamaIsReal(char s[])
 }
 int main()
 {
-    char string[100];
+    char string[1000];
     int x1, x2, x3, x4;
     scanf(" %[^\n]",string);
     while(!(string[0]=='F' && string[1]=='I' && string[2]=='M' && string[3]=='\0'))

@@ -56,7 +56,7 @@ public class VerificaSenhaIterativo {
         String senha;
         boolean x;
         senha = sc.nextLine();
-        while(comparar(senha)
+        while(comparar(senha))
         {
             x = verifica(senha);
             if(x==true)System.out.println("SIM");

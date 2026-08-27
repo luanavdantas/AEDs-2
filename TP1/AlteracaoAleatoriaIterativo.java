@@ -1,4 +1,4 @@
-
+package TP1;
 import java.util.*;
 /*
     Data: 22/08/26

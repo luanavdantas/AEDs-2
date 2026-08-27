@@ -20,7 +20,7 @@ char* chamaCiframento (char *p)
 }
 int main()
 {
-    char s[100];
+    char s[1000];
     scanf(" %[^\n]",s);
     while(!(s[0]=='F' && s[1]=='I' && s[2]=='M' && s[3]=='\0'))
     {

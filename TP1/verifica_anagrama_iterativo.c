@@ -32,7 +32,6 @@ int verificaAnagrama (char s1[], char s2[])
                     s2[m] = '.'; //Caractere já encontrou seu correspondente
                     m=tam2; //Sai do for interno
                 }
-                else resp=0;
             }
             if(resp==0) k=tam1; //Se um dos caracteres do vetor 1 não encontrar correspondentes, as string não são anagramas
         }
@@ -41,9 +40,8 @@ int verificaAnagrama (char s1[], char s2[])
 int main()
 {
     //Declaração das variáveis
-    char s1[100],s2[100];
+    char s1[1000],s2[1000];
     int resp;
-    //Leitura da entrada
     scanf("%s",s1);
     //Laço de repetição com condição de parada
     while(!(s1[0]=='F' && s1[1]=='I' && s1[2]=='M' && s1[3]=='\0'))
