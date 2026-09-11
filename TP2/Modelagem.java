@@ -57,46 +57,52 @@ public class Modelagem{
 	public double getConsumoEstrada(){return this.consumoEstrada;}
 	public double getCo2(){return this.co2;}
 	public boolean getTurbo(){return this.turbo;}	
-	public String getData(){return this.dataRegistro.format();};
+	public String getData(){return this.dataRegistro.format();}
+	public String format(){
+	String combustivel;
+	if(this.combustivel.length==2) combustivel = this.combustivel[0]+","+this.combustivel[1];
+	else combustivel= getCombustivel();
+	return "["+getId()+" ## "+getMarca()+" ## "+getModelo()+" ## "+getAno()+" ## "+getCategoria()+" ## ["+combustivel+"] ## "+getCilindros()+" ## "+getCilindrada()+" ## "+getTransmissao()+" ## "+getTracao()+" ## "+String.format(Locale.US, "%.2f", getConsumoCidade())+" ## "+String.format(Locale.US, "%.2f", getConsumoEstrada())+" ## "+getCo2()+" ## "+getTurbo()+" ## "+getData()+"]";
+
+}
 }
     static class LeitorCsv{
-	Veiculo[] ler(String caminhoArquivo){
+	private int id[] = new int[500];
+	public Veiculo[] ler(String caminhoArquivo){
         Veiculo veiculos[] = new Veiculo[500];
         java.io.File dados = new java.io.File(caminhoArquivo);
         try(Scanner sc = new Scanner(dados)){
 	String cabecalho = sc.nextLine();
-	for(int i=0; i<5; i++)
+	for(int i=0; i<500; i++)
         {
             String linha = sc.nextLine();
 	    String infos[] = linha.split(",");
             veiculos[i]= new Veiculo();
 	    for(int j=0; j<15; j++){
 		veiculos[i].parseVeiculo(infos[j], j+1);}
-		System.out.println("ID lido: " + veiculos[i].getId());
-		System.out.println("Marca: " + veiculos[i].getMarca());
-		System.out.println("Modelo: " + veiculos[i].getModelo());
-		System.out.println("Ano: " + veiculos[i].getAno());
-		System.out.println("Categoria: " + veiculos[i].getCategoria());
-	        System.out.println("Combustivel: "+ veiculos[i].getCombustivel());
-		System.out.println("Cilindros: " + veiculos[i].getCilindros());
-		System.out.println("Cilindrada: "+veiculos[i].getCilindrada());
-		System.out.println("Transmissao: "+veiculos[i].getTransmissao());
-		System.out.println("Tracao: "+ veiculos[i].getTracao());
-		System.out.println("Consumo cidade: " + veiculos[i].getConsumoCidade());
-		System.out.println("Consumo estrada: "+veiculos[i].getConsumoEstrada());
-		System.out.println("CO2: "+veiculos[i].getCo2());
-		System.out.println("Turbo: "+veiculos[i].getTurbo());
-		System.out.println("Data: "+veiculos[i].getData());
+	    this.id[i]=veiculos[i].getId();
         }
+	
 	}catch(FileNotFoundException e){System.out.println("ERRO");}
 	return veiculos;	
+	}
+	public int[] getIds(){
+	return id;
 }
-    ;}
+}
 
     public static void main(String[] args) {
-        String caminho = "veiculos.csv";
+	int entrada;
+	Scanner sc = new Scanner(System.in);
+	String caminho = "veiculos.csv";
 	LeitorCsv leitor = new LeitorCsv();
-	leitor.ler(caminho);
+	Veiculo[] dados = leitor.ler(caminho);
+	entrada=sc.nextInt();
+	while(entrada>0){
+	for(int i=0; i<500; i++) 
+		if(entrada == dados[i].getId())System.out.println(dados[i].format());
+	entrada=sc.nextInt();
+}
+sc.close();
     }
-    }
-
+}
