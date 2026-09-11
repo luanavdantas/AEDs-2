@@ -4,6 +4,10 @@
 # Arquivos temporários do Vim
 *.swp
 *.swo
+*.swk
+*.swl
+*.swm
+*.swn
 *~
 
 # Arquivos do VS Code
