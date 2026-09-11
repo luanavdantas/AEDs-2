@@ -9,6 +9,7 @@
 *.swm
 *.swn
 *~
+*.swe
 
 # Arquivos do VS Code
 .vscode/
