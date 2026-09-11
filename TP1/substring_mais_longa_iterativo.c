@@ -15,9 +15,9 @@ int defineTamanho (char string[])
 }
 int main()
 {
-    char stringPrincipal[100], substring[100];
-    int maior=1, cont, tamStringPrincipal=0, sinal=0, tamSubstring=0, posiSubstring=0, indiceRepetida;
-    for(int i=0; i<100; i++)
+    char stringPrincipal[1000], substring[1000];
+    int maior=1, cont, tamStringPrincipal=0, tamSubstring=0, posiSubstring=0, indiceRepetida;
+    for(int i=0; i<1000; i++)
     {
         stringPrincipal[i] = '\0';
         substring[i]='\0';
@@ -31,7 +31,7 @@ int main()
         tamSubstring = defineTamanho(substring);
         for(int j=0; j<tamStringPrincipal; j++)
         {
-            cont=0;
+            cont=1;
             for(int k=0; k<tamSubstring; k++)
             {
                 if(stringPrincipal[j]!=substring[k]) 
@@ -46,7 +46,7 @@ int main()
                     k=tamSubstring;
                 }
             }
-            if(cont==tamSubstring) 
+            if(cont==(tamSubstring+1)) 
             {
                 printf("Não tem repeticao na substring\n");
                 substring[posiSubstring]=stringPrincipal[j];
@@ -57,11 +57,11 @@ int main()
             }
             else
             {
-                for(int i=0; i<100; i++)
+                for(int i=0; i<1000; i++)
                     substring[i]='\0';
                 posiSubstring=0;
                 substring[posiSubstring] = stringPrincipal[indiceRepetida];
-                //posiSubstring++;
+                posiSubstring++;
                 j=indiceRepetida+1;
                 printf("Substring recomecou: %s\n",substring);
                 printf("J agora eh %d\n",j);
@@ -71,7 +71,7 @@ int main()
             if(tamSubstring>maior) maior=tamSubstring;
         }
         printf("%d\n",maior);
-        for(int i=0; i<100; i++)
+        for(int i=0; i<1000; i++)
         {
             stringPrincipal[i] = '\0';
             substring[i]='\0';
