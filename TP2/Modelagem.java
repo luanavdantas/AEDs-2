@@ -67,7 +67,6 @@ public class Modelagem{
 }
 }
     static class LeitorCsv{
-	private int id[] = new int[500];
 	public Veiculo[] ler(String caminhoArquivo){
         Veiculo veiculos[] = new Veiculo[500];
         java.io.File dados = new java.io.File(caminhoArquivo);
@@ -80,15 +79,11 @@ public class Modelagem{
             veiculos[i]= new Veiculo();
 	    for(int j=0; j<15; j++){
 		veiculos[i].parseVeiculo(infos[j], j+1);}
-	    this.id[i]=veiculos[i].getId();
         }
 	
 	}catch(FileNotFoundException e){System.out.println("ERRO");}
 	return veiculos;	
 	}
-	public int[] getIds(){
-	return id;
-}
 }
 
     public static void main(String[] args) {
