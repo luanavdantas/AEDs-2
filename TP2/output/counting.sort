@@ -80,18 +80,16 @@ Veiculo* lerCsv(char caminhoArquivo[50]){
     }
 void countingSort (Veiculo v[50], int k){
 	int cont[k+1];
-	Veiculo saida[50];
+	Veiculo sort[50];
 	for(int i=0; i<k; i++) cont[i] = 0;
-	for(int i=0; i<50; i++) {
-		cont[v[i].cilindros]++;
-	}
-	for(int i=1; i<=k; i++) cont[i] += cont[i-1];
-	for(int i=49; i>=0; i--) {
-		saida[cont[v[i].cilindros] - 1] = v[i];
+	for(int i=0; i<50; i++) cont[v[i].cilindros]++;
+	for(int i=1; i<k; i++) cont[i] += cont[i-1];
+	for(int i=k; i>=0; i--) {
+		sort[cont[v[i].cilindros] - 1] = v[i];
 		cont[v[i].cilindros]--;
 	}
-	for(int i=0; i<50; i++)
-		formatVeiculo(saida[i]);
+	
+	for(int i=0; i<50; i++) formatVeiculo(sort[i]);
 }
 int main(){
 	int entrada, posi=0, maior = 0;
@@ -111,5 +109,6 @@ int main(){
 	scanf("%d",&entrada);
 }
 	countingSort(lidos, maior);
+
     return 0;
 }

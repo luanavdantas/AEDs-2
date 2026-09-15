@@ -78,23 +78,35 @@ Veiculo* lerCsv(char caminhoArquivo[50]){
     }
     return veiculos;
     }
-void countingSort (Veiculo v[50], int k){
-	int cont[k+1];
+void countingRadix (Veiculo v[50], int casa){
+	int cont[10];
 	Veiculo saida[50];
-	for(int i=0; i<k; i++) cont[i] = 0;
+	for(int i=0; i<10; i++) cont[i] = 0;
 	for(int i=0; i<50; i++) {
-		cont[v[i].cilindros]++;
+		int digito = (v[i].ano/casa)%10;
+		cont[digito]++;
 	}
-	for(int i=1; i<=k; i++) cont[i] += cont[i-1];
+	for(int i=1; i<10; i++) cont[i] += cont[i-1];
 	for(int i=49; i>=0; i--) {
-		saida[cont[v[i].cilindros] - 1] = v[i];
-		cont[v[i].cilindros]--;
+		int digito = (v[i].ano/casa)%10;
+		saida[cont[digito] - 1] = v[i];
+		cont[digito]--;
 	}
 	for(int i=0; i<50; i++)
-		formatVeiculo(saida[i]);
+		v[i] = saida[i];
+}
+void radixSort(Veiculo v[50])
+{
+	int maior = v[0].ano;
+	for(int i=0; i<50; i++) 
+		if(v[i].ano > maior) maior = v[i].ano;
+	for(int casa = 1; maior/casa >0; casa*=10) 
+		countingRadix(v, casa);
+	for(int i=0; i<50; i++)
+		formatVeiculo(v[i]);
 }
 int main(){
-	int entrada, posi=0, maior = 0;
+	int entrada, posi=0;
 	char caminho[50];
         strcpy(caminho,"veiculos.csv");
 	Veiculo *dados = lerCsv(caminho);
@@ -105,11 +117,11 @@ int main(){
 		if(entrada == dados[i].id){
 		lidos[posi] = dados[i];
 		posi++;
-		if(dados[i].cilindros > maior) maior = dados[i].cilindros;
 		i=500;
 		}
 	scanf("%d",&entrada);
 }
-	countingSort(lidos, maior);
+	radixSort(lidos);
     return 0;
 }
+

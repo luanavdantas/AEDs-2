@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
     Data: 10/9/26
     Autora: Luana Dantas
 */
-public class Insercao{
+public class Bucket{
     static class Data{
 	private int dia, mes, ano;
 	public void parseData(String s){
@@ -74,7 +74,7 @@ public class Insercao{
 	String cabecalho = sc.nextLine();
 	for(int i=0; i<500; i++)
         {
-            String linha = sc.nextLine();
+	    String linha = sc.nextLine();
 	    String infos[] = linha.split(",");
             veiculos[i]= new Veiculo();
 	    for(int j=0; j<15; j++){
@@ -85,16 +85,38 @@ public class Insercao{
 	return veiculos;	
 	}
 }
-public static void insertionSort(Veiculo v[]){
-	for(int i=1; i<50; i++){
+public static void insertionSort(Veiculo v[], int tam){
+	for(int i=1; i<tam; i++){
 		Veiculo temp = v[i];
 		int j= i-1;
-		while(j>=0 && v[j].getMarca().compareToIgnoreCase(temp.getMarca()) > 0){
+		while(j>=0 && v[j].getCilindrada() > temp.getCilindrada()){
 			v[j+1] = v[j];
 			j--;
 		}
 		v[j+1] = temp;
 	}
+}
+public static void bucketSort(Veiculo v[]){
+	Veiculo[][] baldes = new Veiculo[10][50];
+	Veiculo[] saida = new Veiculo[50];
+	int[] cont = new int[10];
+	for(int i=0; i<50; i++){
+		double valor = v[i].getCilindrada()/8.1;
+		int indice = (int)(valor*10);
+		baldes[indice][cont[indice]] = v[i];
+		cont[indice]++;
+	}
+	for(int i=0; i<10; i++)
+		insertionSort(baldes[i], cont[i]);
+	int posi=0;
+	for(int i=0; i<10; i++){
+		for(int j=0; j<cont[i]; j++){
+			saida[posi] = baldes[i][j];
+			posi++;
+		}
+	}
+	for(int i=0; i<50; i++)
+		v[i] =saida[i];
 }
 public static void main(String[] args) {
 	int entrada;
@@ -115,7 +137,7 @@ public static void main(String[] args) {
 		}
 	entrada=sc.nextInt();
 	}
-	insertionSort(lidos);
+	bucketSort(lidos);
 	for(int k=0; k<posi; k++) System.out.println(lidos[k].format());
 	sc.close();
 }
