@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 /*
-    Data: 11/09/2026
+    Data: 12/09/2026
     Autora: Luana
 */
 typedef struct Data{
@@ -26,7 +26,6 @@ typedef struct Veiculo{
     Data dataRegistro;
 }Veiculo;
 Veiculo parseVeiculo(char* s[15]){
-    //printf("%s\n",s[5]);
     Veiculo veiculo;
     veiculo.id = atoi(s[0]);
 	strcpy(veiculo.marca,s[1]);
@@ -59,14 +58,14 @@ void formatVeiculo (Veiculo v){
     else if(v.turbo==0) strcpy(turbo,"false");
     printf("[%d ## %s ## %s ## %d ## %s ## [%s] ## %d ## %.1lf ## %s ## %s ## %.2lf ## %.2lf ## %.1lf ## %s ## %s]\n",v.id,v.marca,v.modelo,v.ano,v.categoria,combustivel,v.cilindros,v.cilindrada,v.transmissao,v.tracao,v.consumoCidade,v.consumoEstrada,v.co2,turbo,formatData(v.dataRegistro));
 }
-Veiculo* lerCsv(char caminhoArquivo[1000]){
+Veiculo* lerCsv(char caminhoArquivo[50]){
     Veiculo *veiculos = malloc(500*sizeof(Veiculo));
     int atual=0;
     FILE *dados = fopen(caminhoArquivo, "r");
     if(dados==NULL) printf("ERRO");
 	char linha[1000];
-    fscanf(dados," %[^\n]",linha); //ignora o cabeçalho
-	for(int j = 0; j <500 && fscanf(dados," %[^\n]",linha)!=EOF; j++){
+    	fscanf(dados," %[^\n]",linha); //ignora o cabeçalho
+	for(int j = 0; j <500 && fscanf(dados," %[^\n]", linha)!=EOF; j++){
         char* infos[15];
         char *token = strtok(linha, ",");
         for(int i=0; i<15;i++)
@@ -78,20 +77,38 @@ Veiculo* lerCsv(char caminhoArquivo[1000]){
         atual++;
     }
     return veiculos;
-    } 
+    }
+Veiculo* countingSort (Veiculo v[50], int k){
+	int cont[k+1];
+	Veiculo *saida = malloc(50*sizeof(Veiculo));
+	for(int i=0; i<k; i++) cont[i] = 0;
+	for(int i=0; i<50; i++) cont[v[i].cilindros]++;
+	for(int i=1; i<k; i++) cont[i] += cont[i-1];
+	for(int i=k; i>=0; i--) {
+		*(saida + cont[v[i].cilindros - 1]) = v[i];
+		cont[v[i].cilindros]--;
+	}
+	return saida;
+}
 int main(){
-    int entrada;
+	int entrada, posi=0, maior = 0;
 	char caminho[50];
-    strcpy(caminho,"../veiculos.csv");
+        strcpy(caminho,"veiculos.csv");
 	Veiculo *dados = lerCsv(caminho);
+	Veiculo lidos[50];
 	scanf("%d",&entrada);
 	while(entrada>0){
 	for(int i=0; i<500; i++) 
-		if(entrada == dados[i].id) 
-        {
-            formatVeiculo(dados[i]);
-        }
+		if(entrada == dados[i].id){
+		lidos[posi] = dados[i];
+		posi++;
+		if(dados[i].cilindros > maior) maior = dados[i].cilindros;
+		i=500;
+		}
 	scanf("%d",&entrada);
 }
+	Veiculo *ordenado = countingSort(lidos, maior);
+	for(int k=0; k<posi; k++) formatVeiculo(*(ordenado + k));
+
     return 0;
 }
