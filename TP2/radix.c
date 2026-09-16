@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 /*
-    Data: 12/09/2026
+    Data: 11/09/2026
     Autora: Luana
 */
 typedef struct Data{
@@ -13,71 +13,76 @@ Data parseData(char *s){
     sscanf(s, "%d-%d-%d", &data.ano, &data.mes, &data.dia);
     return data;
 }	
-char* formatData(Data d){
-    static char formatado[50];
-	sprintf(formatado,"%02d/%02d/%04d", d.dia, d.mes, d.ano);
-    return formatado;
+void formatData(Data d, char *buffer){
+	sprintf(buffer,"%02d/%02d/%04d", d.dia, d.mes, d.ano);
 }
 typedef struct Veiculo{
     int id, ano, cilindros, turbo;
     char marca[100], modelo[100], categoria[100], transmissao[100],tracao[100];
     double cilindrada, consumoCidade, consumoEstrada, co2;
-    char combustivel[100];
+    char combustivel[2][100];
     Data dataRegistro;
 }Veiculo;
-Veiculo parseVeiculo(char* s[15]){
-    Veiculo veiculo;
-    veiculo.id = atoi(s[0]);
-	strcpy(veiculo.marca,s[1]);
-    strcpy(veiculo.modelo,s[2]);
-    veiculo.ano=atoi(s[3]);
-    strcpy(veiculo.categoria, s[4]);
-    strcpy(veiculo.combustivel, s[5]);
-    veiculo.cilindros = atoi(s[6]);
-    veiculo.cilindrada = atof(s[7]);
-    strcpy(veiculo.transmissao,s[8]);
-    strcpy(veiculo.tracao,s[9]);
-    veiculo.consumoCidade = atof(s[10]);
-    veiculo.consumoEstrada = atof(s[11]);
-    veiculo.co2 = atof(s[12]);
-    if(strcmp(s[13], "true")==0) veiculo.turbo =1;
-    else if(strcmp(s[13],"false")==0) veiculo.turbo=0;
-    veiculo.dataRegistro = parseData(s[14]);
+void parseCombustivel(char *linha, char combustivel[2][100]){
+    char *tok = strtok(linha, ";");
+    strcpy(combustivel[0],tok);
+    tok = strtok(NULL, ";");
+    if(tok!=NULL)strcpy(combustivel[1], tok);
+    else strcpy(combustivel[1],"");
+}
+Veiculo* parseVeiculo(char *s){
+    char *infos[15]; 
+    Veiculo *veiculo = malloc(sizeof(Veiculo));
+    char *tok = strtok(s, ",");
+    infos[0] = tok;
+    for(int i=1; i<15; i++){
+        tok = strtok(NULL, ",");
+        infos[i] =tok;
+    }
+    veiculo->id = atoi(infos[0]);
+	strcpy(veiculo->marca,infos[1]);
+    strcpy(veiculo->modelo,infos[2]);
+    veiculo->ano=atoi(infos[3]);
+    strcpy(veiculo->categoria, infos[4]);
+    parseCombustivel(infos[5],veiculo->combustivel);
+    veiculo->cilindros = atoi(infos[6]);
+    veiculo->cilindrada = atof(infos[7]);
+    strcpy(veiculo->transmissao,infos[8]);
+    strcpy(veiculo->tracao,infos[9]);
+    veiculo->consumoCidade = atof(infos[10]);
+    veiculo->consumoEstrada = atof(infos[11]);
+    veiculo->co2 = atof(infos[12]);
+    if(strcmp(infos[13], "true")==0) veiculo->turbo =1;
+    else if(strcmp(infos[13],"false")==0) veiculo->turbo=0;
+    veiculo->dataRegistro = parseData(infos[14]);
 	return veiculo;
     }
-void formatVeiculo (Veiculo v){
-    char turbo[10], *tok, combustivel[50];
-    tok = strtok(v.combustivel,";");
-    strcpy(combustivel,tok);
-    tok = strtok(NULL, ";");
-    if(tok!=NULL){
-        strcat(combustivel,",");
-        strcat(combustivel,tok);
+void formatVeiculo (Veiculo v, char *buffer){
+    char turbo[10];
+    char *bufferData = (char*)malloc(20*sizeof(char));
+    strcpy(buffer,v.combustivel[0]);
+    if(v.combustivel[1][0]!='\0'){
+        strcat(buffer,",");
+        strcat(buffer,v.combustivel[1]);
     }
     if(v.turbo==1)strcpy(turbo,"true");
     else if(v.turbo==0) strcpy(turbo,"false");
-    printf("[%d ## %s ## %s ## %d ## %s ## [%s] ## %d ## %.1lf ## %s ## %s ## %.2lf ## %.2lf ## %.1lf ## %s ## %s]\n",v.id,v.marca,v.modelo,v.ano,v.categoria,combustivel,v.cilindros,v.cilindrada,v.transmissao,v.tracao,v.consumoCidade,v.consumoEstrada,v.co2,turbo,formatData(v.dataRegistro));
+    formatData(v.dataRegistro, bufferData);
+    printf("[%d ## %s ## %s ## %d ## %s ## [%s] ## %d ## %.1lf ## %s ## %s ## %.2lf ## %.2lf ## %.1lf ## %s ## %s]\n",v.id,v.marca,v.modelo,v.ano,v.categoria,buffer,v.cilindros,v.cilindrada,v.transmissao,v.tracao,v.consumoCidade,v.consumoEstrada,v.co2,turbo, bufferData);
+    free(bufferData);
 }
-Veiculo* lerCsv(char caminhoArquivo[50]){
-    Veiculo *veiculos = malloc(500*sizeof(Veiculo));
-    int atual=0;
+Veiculo* lerCsv(char caminhoArquivo[50], int *n){
+    Veiculo *veiculos = malloc((*n)*sizeof(Veiculo));
     FILE *dados = fopen(caminhoArquivo, "r");
     if(dados==NULL) printf("ERRO");
-	char linha[1000];
-    	fscanf(dados," %[^\n]",linha); //ignora o cabeçalho
-	for(int j = 0; j <500 && fscanf(dados," %[^\n]", linha)!=EOF; j++){
-        char* infos[15];
-        char *token = strtok(linha, ",");
-        for(int i=0; i<15;i++)
-        {
-            infos[i]=token;
-            token = strtok(NULL,",");
-        }
-        *(veiculos+atual) = parseVeiculo(infos);
-        atual++;
+	char *linha = (char*)malloc(1000*sizeof(char));
+    fscanf(dados," %[^\n]",linha); //ignora o cabeçalho
+	for(int j = 0; j < (*n) && fscanf(dados," %[^\n]",linha)!=EOF; j++){
+        *(veiculos+j) = *(parseVeiculo(linha));
     }
+    fclose(dados);
     return veiculos;
-    }
+    } 
 void countingRadix (Veiculo v[50], int casa){
 	int cont[10];
 	Veiculo saida[50];
@@ -102,14 +107,17 @@ void radixSort(Veiculo v[50])
 		if(v[i].ano > maior) maior = v[i].ano;
 	for(int casa = 1; maior/casa >0; casa*=10) 
 		countingRadix(v, casa);
-	for(int i=0; i<50; i++)
-		formatVeiculo(v[i]);
+	for(int i=0; i<50; i++){
+        char *buffer = (char*)malloc(200*sizeof(char));
+        formatVeiculo(v[i], buffer);
+        free(buffer);
+    }
 }
 int main(){
-	int entrada, posi=0;
+	int entrada, qnt=500, posi=0;
 	char caminho[50];
         strcpy(caminho,"veiculos.csv");
-	Veiculo *dados = lerCsv(caminho);
+	Veiculo *dados = lerCsv(caminho, &qnt);
 	Veiculo lidos[50];
 	scanf("%d",&entrada);
 	while(entrada>0){
