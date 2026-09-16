@@ -83,11 +83,21 @@ Veiculo* lerCsv(char caminhoArquivo[50], int *n){
     fclose(dados);
     return veiculos;
     } 
+int casecmp(char s1[], char s2[]){
+    char tmp1[100], tmp2[100];
+    strcpy(tmp1, s1);
+    strcpy(tmp2, s2);
+    for(int i=0; tmp1[i]!='\0'; i++)
+            if(tmp1[i]>='A' && tmp1[i]<='Z') tmp1[i] += 32;
+    for(int i=0; tmp2[i]!='\0'; i++)
+            if(tmp2[i]>='A' && tmp2[i]<='Z') tmp2[i] += 32;
+    return strcmp(tmp1,tmp2);
+}
 void selectionSort (Veiculo v[50], int tam){
 	for(int i=0; i<tam - 1; i++){
 		int min = i;
 		for(int j = i+1; j< tam; j++)
-			if(strcasecmp(v[j].modelo,v[min].modelo)<0) min = j;
+			if(casecmp(v[j].modelo,v[min].modelo)<0) min = j;
 		if(i!=min){
 		Veiculo temp = v[i];
 		v[i] = v[min];
