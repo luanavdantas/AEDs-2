@@ -138,9 +138,9 @@ public class Insercao {
 			Veiculo veiculos[] = new Veiculo[500];
 			java.io.File dados = new java.io.File(caminhoArquivo);
 			try (Scanner sc = new Scanner(dados)) {
-				String cabecalho = sc.nextLine();
+				String linha = sc.nextLine();
 				for (int i = 0; i < 500; i++) {
-					String linha = sc.nextLine();
+					linha = sc.nextLine();
 					veiculos[i] = Veiculo.parseVeiculo(linha);
 				}
 
