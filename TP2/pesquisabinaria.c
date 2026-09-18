@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 /*
-    Data: 11/09/2026
+    Data: 17/09/2026
     Autora: Luana
 */
 typedef struct Data{
@@ -126,7 +126,7 @@ int confere(char s[]){
 int main(){
     int entrada, qnt = 500,posi=0;
 	char caminho[50], modelo[20];
-        strcpy(caminho,"veiculos.csv");
+        strcpy(caminho,"/tmp/veiculos.csv");
 	Veiculo *dados = lerCsv(caminho, &qnt);
 	Veiculo lidos[50];
 	scanf("%d",&entrada);

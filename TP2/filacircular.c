@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 /*
-    Data: 11/09/2026
+    Data: 18/09/2026
     Autora: Luana
 */
 typedef struct Data{
@@ -113,7 +113,7 @@ int main(){
 	primeira = ultima = 0;
 	int entrada, qnt = 500, N;
 	char caminho[50];
-	strcpy(caminho,"veiculos.csv");
+	strcpy(caminho,"/tmp/veiculos.csv");
 	Veiculo *dados = lerCsv(caminho, &qnt);
 	scanf("%d",&entrada);
 	while(entrada>0){

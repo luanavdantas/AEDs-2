@@ -278,7 +278,7 @@ public class ListaDupla {
 		String linha;
 		Lista lista = new Lista();
 		Scanner sc = new Scanner(System.in);
-		String caminho = "veiculos.csv";
+		String caminho = "/tmp/veiculos.csv";
 		LeitorCsv leitor = new LeitorCsv();
 		Veiculo[] dados = leitor.ler(caminho);
 		entrada = sc.nextInt();

@@ -108,7 +108,7 @@ void selectionSort (Veiculo v[50], int tam){
 int main(){
     int entrada, qnt=500, posi=0;
 	char caminho[50];
-        strcpy(caminho,"veiculos.csv");
+        strcpy(caminho,"/tmp/veiculos.csv");
 	Veiculo *dados = lerCsv(caminho, &qnt);
 	Veiculo lidos[50];
 	scanf("%d",&entrada);

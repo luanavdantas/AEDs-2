@@ -86,7 +86,7 @@ Veiculo* lerCsv(char caminhoArquivo[50], int *n){
 int main(){
     int entrada, qnt = 500;
 	char caminho[50];
-    strcpy(caminho,"veiculos.csv");
+    strcpy(caminho,"/tmp/veiculos.csv");
 	Veiculo *dados = lerCsv(caminho, &qnt);
 	scanf("%d",&entrada);
 	while(entrada>0){

@@ -217,11 +217,11 @@ public class PilhaFlexivel{
 		}
 	}
 	public static void main(String[] args) {
-		int entrada, N, posi;
+		int entrada, N;
 		String linha;
 		Pilha pilha = new Pilha();
 		Scanner sc = new Scanner(System.in);
-		String caminho = "veiculos.csv";
+		String caminho = "/tmp/veiculos.csv";
 		LeitorCsv leitor = new LeitorCsv();
 		Veiculo[] dados = leitor.ler(caminho);
 		entrada = sc.nextInt();
