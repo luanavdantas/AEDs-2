@@ -166,10 +166,8 @@ public class ListaDupla {
 	private Celula primeira, ultima;
 	private int n;
 	public Lista(){
-		this.primeira = new Celula();
-		this.ultima = new Celula();
-		this.primeira.prox = this.ultima;
-		this.ultima.ant = this.primeira;
+		this.primeira = this.ultima = new Celula();
+		this.primeira.prox = this.ultima.prox = this.primeira.ant = this.ultima.ant = null;
 		this.n = 0;
 //		System.out.println("Construtor");
 	}
@@ -183,9 +181,11 @@ public class ListaDupla {
 	public void inserirInicio(Veiculo veiculo){
 		if(n==500) System.out.println("Lista cheia");
 		Celula nova = new Celula(veiculo);
-		if(ultima.elemento == null){
-			ultima.elemento = nova.elemento;
-			nova = null;
+		if(primeira==ultima){
+			nova.prox= ultima.prox;
+			nova.ant = ultima;
+			ultima.prox = nova;
+			ultima = nova;
 		}
 		else{ 
 			nova.prox = primeira.prox;
@@ -196,9 +196,22 @@ public class ListaDupla {
 		incrementaN();
 	}
 	public void inserir(Veiculo veiculo, int posicao){
-		if(posicao>=n || posicao<0) System.out.println("Posicao indisponivel");
-		if(n==500) System.out.println("Lista cheia");
-		else if(posicao == 0) inserirInicio(veiculo);
+		if(posicao>n || posicao<0) {
+			System.out.println("Posicao indisponivel");
+			return;
+		}
+		if(n==500) {
+			System.out.println("Lista cheia");
+			return;
+		}
+		else if(posicao == 0) {
+				inserirInicio(veiculo);
+				return;
+			}
+		else if(posicao == n){
+			inserirFim(veiculo);
+			return;
+		} 
 		else{
 			Celula tmp = primeira.prox;
 			Celula nova = new Celula(veiculo);
@@ -217,26 +230,21 @@ public class ListaDupla {
 	public void inserirFim(Veiculo veiculo){
 		if(n==500)System.out.println("Lista cheia");
 		Celula nova = new Celula(veiculo);
-		if(ultima.elemento == null){
-			ultima.elemento = nova.elemento;
-			nova = null;
-		}
-		else{
 			nova.prox = ultima.prox;
 			ultima.prox = nova;
 			nova.ant = ultima;
 			ultima = nova;
-		}
 //		System.out.println("Veiculo no fim: "+lista[n].format());
 		incrementaN();
 	}
 	public Veiculo removerInicio() throws Exception{
 		if(n==0) throw new Exception("Lista vazia");
-		Veiculo removido = primeira.prox.elemento;
-		primeira.prox.prox.ant = primeira;
-		primeira.prox = primeira.prox.prox;
+		Celula removido = primeira.prox;
+		primeira.prox = removido.prox;
+		if(primeira.prox != null) primeira.prox.ant = primeira;
+		else ultima = primeira;
 		decrementaN();
-		return removido;
+		return removido.elemento;
 	}
 	public Veiculo removerFim() throws Exception{
 		if(n==0) throw new Exception("Lista vazia");
@@ -249,6 +257,7 @@ public class ListaDupla {
 	public Veiculo remover(int posicao)throws Exception{
 		if(n==0) throw new Exception("Lista vazia");
 		else if(posicao<0 || posicao>=n)throw new Exception("Posicao indisponivel");
+		if(posicao == n-1) return removerFim();
 		Celula tmp = primeira.prox;
 		int j=0;
 		while(j<posicao){
@@ -256,10 +265,9 @@ public class ListaDupla {
 			j++;
 		}
 		Veiculo removido = tmp.elemento;
-		Celula aux = tmp;
 		tmp.ant.prox = tmp.prox;
-		tmp.prox.ant = aux.ant;
-		aux = tmp = null;
+		if(tmp.prox !=null) tmp.prox.ant = tmp.ant;
+		else ultima = primeira;
 		decrementaN();
 		return removido;	
 	}	

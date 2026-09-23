@@ -110,14 +110,14 @@ int main(){
 	char caminho[50];
         strcpy(caminho,"/tmp/veiculos.csv");
 	Veiculo *dados = lerCsv(caminho, &qnt);
-	Veiculo lidos[50];
+	Veiculo lidos[500];
 	scanf("%d",&entrada);
 	while(entrada>0){
-	for(int i=0; i<500; i++) 
+	for(int i=0; i<qnt; i++) 
 		if(entrada == dados[i].id){
 		lidos[posi] = dados[i];
 		posi++;
-		i=500;
+		i=qnt;
 		}
 	scanf("%d",&entrada);
 }

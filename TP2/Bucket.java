@@ -161,11 +161,11 @@ public static void insertionSort(Veiculo v[], int tam){
 		v[j+1] = temp;
 	}
 }
-public static void bucketSort(Veiculo v[]){
+public static void bucketSort(Veiculo v[], int tam){
 	Veiculo[][] baldes = new Veiculo[10][50];
-	Veiculo[] saida = new Veiculo[50];
+	Veiculo[] saida = new Veiculo[tam];
 	int[] cont = new int[10];
-	for(int i=0; i<50; i++){
+	for(int i=0; i<tam; i++){
 		double valor = v[i].getCilindrada()/8.1;
 		int indice = (int)(valor*10);
 		baldes[indice][cont[indice]] = v[i];
@@ -180,7 +180,7 @@ public static void bucketSort(Veiculo v[]){
 			posi++;
 		}
 	}
-	for(int i=0; i<50; i++)
+	for(int i=0; i<tam; i++)
 		v[i] =saida[i];
 }
 public static void main(String[] args) {
@@ -189,7 +189,7 @@ public static void main(String[] args) {
 	String caminho = "/tmp/veiculos.csv";
 	LeitorCsv leitor = new LeitorCsv();
 	Veiculo[] dados = leitor.ler(caminho);
-	Veiculo[] lidos = new Veiculo[50];
+	Veiculo[] lidos = new Veiculo[500];
 	int posi = 0;
 	entrada=sc.nextInt();
 	while(entrada>0){
@@ -202,7 +202,7 @@ public static void main(String[] args) {
 		}
 	entrada=sc.nextInt();
 	}
-	bucketSort(lidos);
+	bucketSort(lidos, posi);
 	for(int k=0; k<posi; k++) System.out.println(lidos[k].format());
 	sc.close();
 }

@@ -83,31 +83,31 @@ Veiculo* lerCsv(char caminhoArquivo[50], int *n){
     fclose(dados);
     return veiculos;
     } 
-void countingRadix (Veiculo v[50], int casa){
+void countingRadix (Veiculo v[500], int casa, int tam){
 	int cont[10];
-	Veiculo saida[50];
+	Veiculo saida[tam];
 	for(int i=0; i<10; i++) cont[i] = 0;
-	for(int i=0; i<50; i++) {
+	for(int i=0; i<tam; i++) {
 		int digito = (v[i].ano/casa)%10;
 		cont[digito]++;
 	}
 	for(int i=1; i<10; i++) cont[i] += cont[i-1];
-	for(int i=49; i>=0; i--) {
+	for(int i=tam-1; i>=0; i--) {
 		int digito = (v[i].ano/casa)%10;
 		saida[cont[digito] - 1] = v[i];
 		cont[digito]--;
 	}
-	for(int i=0; i<50; i++)
+	for(int i=0; i<tam; i++)
 		v[i] = saida[i];
 }
-void radixSort(Veiculo v[50])
+void radixSort(Veiculo v[500], int tam)
 {
 	int maior = v[0].ano;
-	for(int i=0; i<50; i++) 
+	for(int i=0; i<tam; i++) 
 		if(v[i].ano > maior) maior = v[i].ano;
 	for(int casa = 1; maior/casa >0; casa*=10) 
-		countingRadix(v, casa);
-	for(int i=0; i<50; i++){
+		countingRadix(v, casa, tam);
+	for(int i=0; i<tam; i++){
         char *buffer = (char*)malloc(200*sizeof(char));
         formatVeiculo(v[i], buffer);
         free(buffer);
@@ -118,7 +118,7 @@ int main(){
 	char caminho[50];
         strcpy(caminho,"/tmp/veiculos.csv");
 	Veiculo *dados = lerCsv(caminho, &qnt);
-	Veiculo lidos[50];
+	Veiculo lidos[500];
 	scanf("%d",&entrada);
 	while(entrada>0){
 	for(int i=0; i<500; i++) 
@@ -129,7 +129,7 @@ int main(){
 		}
 	scanf("%d",&entrada);
 }
-	radixSort(lidos);
+	radixSort(lidos, posi);
     return 0;
 }
 

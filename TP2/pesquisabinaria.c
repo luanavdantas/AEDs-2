@@ -93,7 +93,7 @@ int casecmp(char s1[], char s2[]){
             if(tmp2[i]>='A' && tmp2[i]<='Z') tmp2[i] += 32;
     return strcmp(tmp1,tmp2);
 }
-void selectionSort (Veiculo v[50], int tam){
+void selectionSort (Veiculo v[500], int tam){
 	for(int i=0; i<tam - 1; i++){
 		int min = i;
 		for(int j = i+1; j< tam; j++)
@@ -105,7 +105,7 @@ void selectionSort (Veiculo v[50], int tam){
 		}
 	}
 }
-char* pesquisaBinaria (Veiculo v[50], char chave[],int inicio,int fim){
+char* pesquisaBinaria (Veiculo v[500], char chave[],int inicio,int fim){
 	int meio = (inicio + fim)/2;
 	static char resp[4];
 	if(inicio>fim) strcpy(resp, "NAO");
@@ -125,10 +125,10 @@ int confere(char s[]){
 }
 int main(){
     int entrada, qnt = 500,posi=0;
-	char caminho[50], modelo[20];
+	char caminho[50], modelo[100];
         strcpy(caminho,"/tmp/veiculos.csv");
 	Veiculo *dados = lerCsv(caminho, &qnt);
-	Veiculo lidos[50];
+	Veiculo lidos[500];
 	scanf("%d",&entrada);
 	while(entrada>0){
 	for(int i=0; i<500; i++) 
@@ -143,7 +143,7 @@ int main(){
 	scanf(" %[^\n]", modelo);
 	while(confere(modelo) == 1)
 	{
-		printf("%s\n",pesquisaBinaria(lidos, modelo, 0, 49));
+		printf("%s\n",pesquisaBinaria(lidos, modelo, 0, posi-1));
 		scanf(" %[^\n]", modelo);
 	}
     return 0;

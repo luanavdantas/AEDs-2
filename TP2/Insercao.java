@@ -150,8 +150,8 @@ public class Insercao {
 			return veiculos;
 		}
 	}
-public static void insertionSort(Veiculo v[]){
-	for(int i=1; i<50; i++){
+public static void insertionSort(Veiculo v[], int tam){
+	for(int i=1; i<tam; i++){
 		Veiculo temp = v[i];
 		int j= i-1;
 		while(j>=0 && v[j].getMarca().compareToIgnoreCase(temp.getMarca()) > 0){
@@ -167,7 +167,7 @@ public static void main(String[] args) {
 	String caminho = "/tmp/veiculos.csv";
 	LeitorCsv leitor = new LeitorCsv();
 	Veiculo[] dados = leitor.ler(caminho);
-	Veiculo[] lidos = new Veiculo[50];
+	Veiculo[] lidos = new Veiculo[500];
 	int posi = 0;
 	entrada=sc.nextInt();
 	while(entrada>0){
@@ -180,7 +180,7 @@ public static void main(String[] args) {
 		}
 	entrada=sc.nextInt();
 	}
-	insertionSort(lidos);
+	insertionSort(lidos, posi);
 	for(int k=0; k<posi; k++) System.out.println(lidos[k].format());
 	sc.close();
 }

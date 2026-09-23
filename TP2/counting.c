@@ -83,19 +83,19 @@ Veiculo* lerCsv(char caminhoArquivo[50], int *n){
     fclose(dados);
     return veiculos;
     } 
-void countingSort (Veiculo v[50], int k){
+void countingSort (Veiculo v[500], int k, int tam){
 	int cont[k+1];
-	Veiculo saida[50];
-	for(int i=0; i<k; i++) cont[i] = 0;
-	for(int i=0; i<50; i++) {
+	Veiculo saida[tam];
+	for(int i=0; i<=k; i++) cont[i] = 0;
+	for(int i=0; i<tam; i++) {
 		cont[v[i].cilindros]++;
 	}
 	for(int i=1; i<=k; i++) cont[i] += cont[i-1];
-	for(int i=49; i>=0; i--) {
+	for(int i=tam-1; i>=0; i--) {
 		saida[cont[v[i].cilindros] - 1] = v[i];
 		cont[v[i].cilindros]--;
 	}
-	for(int i=0; i<50; i++){
+	for(int i=0; i<tam; i++){
         char *buffer = (char*)malloc(200*sizeof(char));
         formatVeiculo(saida[i],buffer);
         free(buffer);
@@ -106,7 +106,7 @@ int main(){
 	char caminho[50];
         strcpy(caminho,"/tmp/veiculos.csv");
 	Veiculo *dados = lerCsv(caminho, &qnt);
-	Veiculo lidos[50];
+	Veiculo lidos[500];
 	scanf("%d",&entrada);
 	while(entrada>0){
 	for(int i=0; i<500; i++) 
@@ -118,6 +118,6 @@ int main(){
 		}
 	scanf("%d",&entrada);
 }
-	countingSort(lidos, maior);
+	countingSort(lidos, maior, posi);
     return 0;
 }
