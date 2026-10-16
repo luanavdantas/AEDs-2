@@ -198,7 +198,7 @@ public static void main(String[] args) {
 	String caminho = "/tmp/veiculos.csv";
 	LeitorCsv leitor = new LeitorCsv();
 	Veiculo[] dados = leitor.ler(caminho);
-	Veiculo[] lidos = new Veiculo[500];
+	Veiculo[] lidos = new Veiculo[501];
 	int posi = 1;
 	entrada=sc.nextInt();
 	while(entrada>0){

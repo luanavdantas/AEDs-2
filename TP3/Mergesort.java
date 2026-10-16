@@ -179,7 +179,7 @@ public static void intercalar(Veiculo v[], int esq, int meio, int dir){
 	for(iDir=0; iDir<nDir; iDir++) vetDir[iDir] = v[meio+1+iDir];
 	iEsq = iDir = 0;
 	for(int i=esq; i<=dir; i++){
-		if(vetEsq[iEsq].getConsumoCidade()<vetDir[iDir].getConsumoCidade() ||(vetEsq[iEsq].getConsumoCidade()==vetDir[iDir].getConsumoCidade() && vetEsq[iEsq].getCategoria().compareTo(vetDir[iDir].getCategoria())<0)){
+		if(vetEsq[iEsq].getConsumoCidade()<vetDir[iDir].getConsumoCidade() ||(vetEsq[iEsq].getConsumoCidade()==vetDir[iDir].getConsumoCidade() && vetEsq[iEsq].getCategoria().compareTo(vetDir[iDir].getCategoria())<=0)){
 			v[i] = vetEsq[iEsq];
 			iEsq++;
 		}
