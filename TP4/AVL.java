@@ -235,7 +235,7 @@ public class AVL {
 	public static void main(String[] args) {
 		int entrada;
 		Scanner sc = new Scanner(System.in);
-		String caminho = "veiculos.csv";
+		String caminho = "/tmp/veiculos.csv";
 		LeitorCsv leitor = new LeitorCsv();
 		Veiculo[] dados = leitor.ler(caminho);
 		entrada = sc.nextInt();
